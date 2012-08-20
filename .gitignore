@@ -1,0 +1,13 @@
+[Dd]ebug/
+[Rr]elease/
+build/
+[Bb]in/
+[Oo]bj/
+*.suo
+*.sln.cache
+*.user
+*resharper.user
+_ReSharper.*/
+*.mdf
+*.ldf
+
