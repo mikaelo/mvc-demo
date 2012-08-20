@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using MvcDemo.Annotations;
 
 namespace MvcDemo.Models
@@ -14,5 +15,7 @@ namespace MvcDemo.Models
 
         [Checksum(6,ErrorMessage = "Wrong checksum")]
         public string Index { get; set; }
+
+        public DateTime? ValidTo { get; set; }
     }
 }

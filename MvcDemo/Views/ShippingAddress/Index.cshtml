@@ -1,8 +1,64 @@
-﻿@model IEnumerable<MvcDemo.Models.ShippingAddress>
+﻿@using MvcDemo.Models
+@model IEnumerable<MvcDemo.Models.ShippingAddress>
 
 @{
     ViewBag.Title = "Index";
 }
+
+<style type="text/css">
+    #progress { display: none}
+</style>
+
+<p>
+    @Ajax.ActionLink("Latest address", "Last", new AjaxOptions
+                                                   {
+                                                       HttpMethod = "GET",
+                                                       InsertionMode = InsertionMode.Replace,
+                                                       UpdateTargetId = "lastShippingAddress",
+                                                       LoadingElementId = "progress"
+                                                   })
+</p>
+<div id="lastShippingAddress">
+    
+</div>
+
+<div id="progress">
+    <img src="~/Content/images/ajax-loader.gif"/>
+</div>
+
+@using(Ajax.BeginForm("Search", "ShippingAddress", new AjaxOptions()
+                                    {
+                                        HttpMethod = "GET",
+                                        InsertionMode = InsertionMode.Replace,
+                                        UpdateTargetId = "searchResults",
+                                        LoadingElementId = "progress"
+                                    }))
+{
+    <input type="text" name="q" data-autocomplete='@Url.Action("QuickSearch","ShippingAddress")'/>
+    <input type="submit" value="Search"/>
+}
+
+<table id="searchResults"></table>
+
+<form method="get" action="@Url.Action("JsonQuickSearch","ShippingAddress")" id="searchTemplateForm">
+    <input type="text" name="q" data-autocomplete-remove='@Url.Action("QuickSearch","ShippingAddress")'/>
+    <input type="submit" value="Ajax Search"/>
+</form>
+
+<table>
+    <thead>
+        <th>Indx</th>
+        <th>Name</th>
+    </thead>
+    <tbody id="searchTemplateResults"></tbody>
+</table>
+
+<script id="searchTemplate" type="text/x-jquery-tmpl">
+    <tr>
+        <td>${Index}</td>
+        <td>${FirstName} ${LastName}</td>
+    </tr>
+</script>
 
 <h2>Index</h2>
 
@@ -20,26 +76,37 @@
         <th>
             @Html.DisplayNameFor(model => model.Index)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValidTo)
+        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Index)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Index)
+            </td>
+            <td>
+             @Html.DisplayFor(model => item.ValidTo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

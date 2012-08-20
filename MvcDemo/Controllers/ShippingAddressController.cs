@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using MvcDemo.Models;
 
@@ -13,6 +14,33 @@ namespace MvcDemo.Controllers
     {
         private MvcDemoContext db = new MvcDemoContext();
 
+        public ActionResult JsonQuickSearch(string q)
+        {
+            var model = db.ShippingAddresses.Where(x => x.LastName.StartsWith(q)).Take(10)
+                .Select(r => new { Index = r.Index, FirstName = r.FirstName, LastName = r.LastName});
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult QuickSearch(string term)
+        {
+            var model = db.ShippingAddresses.Where(x => x.FirstName.StartsWith(term)).Take(10)
+                .Select(r => new {label = r.FirstName});
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        public PartialViewResult Last()
+        {
+            var model = db.ShippingAddresses.FindLast(1).Single();
+            return PartialView("_ShippingAddress", model);
+        }
+
+        public PartialViewResult Search(string q)
+        {
+            var model = db.ShippingAddresses.Where(x => x.FirstName.StartsWith(q) || x.LastName.StartsWith(q)).Take(10);
+            return PartialView("_SearchResults", model);
+        }
         //
         // GET: /ShippingAddress/
 
