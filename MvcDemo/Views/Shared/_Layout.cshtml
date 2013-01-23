@@ -7,7 +7,9 @@
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
         @Styles.Render("~/Content/themes/base/css")
+        @Styles.Render("~/Content/select2.css")
         @Scripts.Render("~/bundles/modernizr")
+
     </head>
     <body>
         <header>
@@ -46,6 +48,12 @@
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryui")
         @Scripts.Render("~/Scripts/jquery.tmpl.js")
+        @Scripts.Render("~/Scripts/select2.js")
+        @Scripts.Render("~/Scripts/knockout-2.2.1.debug.js")
+        @Scripts.Render("~/Scripts/knockout.mapping-latest.debug.js")
+        @Scripts.Render("~/Scripts/ko-protected-observable.js")
+        @Scripts.Render("~/Scripts/ko-select2-binding.js")
+        @Scripts.Render("~/Scripts/ko-select2-object-binding.js")
         @Scripts.Render("~/Scripts/MvcDemo.js")
         @RenderSection("scripts", required: false)
     </body>

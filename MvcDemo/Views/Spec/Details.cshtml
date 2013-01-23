@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "Details";
+}
+<!--
+<p>
+    Your country: 
+    <select data-bind="options: availableCountries, optionsText: 'countryName', value: selectedCountry, optionsCaption: 'Choose...'"></select>
+</p>
+ 
+<div data-bind="visible: selectedCountry">
+    You have chosen a country with population 
+    <span data-bind="text: selectedCountry() ? selectedCountry().countryPopulation : 'unknown'"></span>.
+</div>
+ 
+-->
+
+<div data-bind="with: spec">
+    <table>
+        <tr>
+            <td>
+                Альпинист
+            </td>
+            <td>
+                <input type="hidden" data-bind="value: $parent.alp, select2Object: { data: {results: $parent.alpinistSpecs}, allowClear: true, placeholder: ' '}, lookupKey: 'id'" style="width: 300px">
+                <br/>
+                <select data-bind="options: $parent.alpinistSpecs, optionsText: 'Name',  value: $parent.alp, select2: { placeholder: ' ', allowClear: true}"  style="width: 300px">
+                </select><br/>
+                <input type="checkbox" data-bind="checked: AlpinistToken"/> Жетон "За спасение в горах"
+            </td>
+        </tr>
+        <tr>
+            <td>Техногенщик</td>
+            <td>
+                <select multiple="multiple" data-bind="options: $parent.tehnoSpecs, optionsValue: 'Id', optionsText: 'Name', selectedOptions: Tehnogenschik, select2: { }" style="width: 300px"></select>                
+            </td>
+        </tr>
+        
+        <tr>
+            <td></td>
+            <td><button>Save</button><button>Cancel</button></td>
+        </tr>
+    </table>
+</div>
+
+<div id="debug" style="clear: both">
+	<hr />
+	<h2>Debug</h2>
+    <pre data-bind="text: JSON.stringify(ko.toJS($data.spec), null, 3)"></pre>
+    <pre data-bind="text: JSON.stringify(ko.toJS($data.alp), null, 3)"></pre>
+</div>
+
+@section scripts {
+
+    <script type="text/javascript">
+        $(function() {
+            var dict = { alpinist: [], tehnogenschik: [] };
+            /*
+            var Country = function (name, population) {
+                this.countryName = name;
+                this.countryPopulation = population;
+            };
+            */
+
+            var spec = function(id, name) {
+                this.id = id;
+                this.text = name;
+            };
+            
+
+
+            $.getJSON("/api/dictApi/all", function (data) {
+                //dict = data;
+                dict.alpinist = ko.utils.arrayMap(data.alpinist, function (item) {
+                    return new spec(item.Id, item.Name);
+                });
+
+                console.log(dict);
+            });
+
+            $.getJSON("/api/SpecApi/1", function (data) {
+                console.log(data);
+                var viewModel = {
+                    // dicts
+                    //alpinistSpecs: ko.observableArray(dict.alpinist),
+                    alpinistSpecs: dict.alpinist,
+                    tehnoSpecs: ko.observableArray(dict.tehnogenschik),
+                    spec: ko.mapping.fromJS(data),
+                    alp: ko.observable(),
+                    //spec: ko.observable(new ko.observableItem(data))
+                    /*
+                    availableCountries: ko.observableArray([
+                        new Country("UK", 65000000),
+                        new Country("USA", 320000000),
+                        new Country("Sweden", 29000000)
+                    ]),
+                    selectedCountry: ko.observable() // Nothing selected by default 
+                    */
+                };
+
+                ko.applyBindings(viewModel);
+            });
+
+
+        })
+    </script>
+
+}
