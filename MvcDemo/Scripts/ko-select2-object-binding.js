@@ -4,7 +4,6 @@
             allBindings = allBindingsAccessor(),
             lookupKey = allBindings.lookupKey;
         $(element).select2(obj);
-        console.log(obj);
         if (lookupKey) {
             var value = ko.utils.unwrapObservable(allBindings.value);
             $(element).select2('data', ko.utils.arrayFirst(obj.data.results, function (item) {
