@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "MakeRequest";
+}
+
+<h2>MakeRequest</h2>
+
+@using (Html.BeginForm("MakeRequest", "Demo", FormMethod.Post, new {}))
+{
+    <text>
+
+
+        Request text: <input type="text" name="request" value="" id="request"/>
+<input type="submit" value="Make"/>
+    
+
+    </text>
+    
+}
+
+@using (Html.BeginForm("MakeRequest", "Demo", FormMethod.Post, new {}))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put);
+    
+    <text>
+
+
+        Put Request text: <input type="text" name="request" value="" id="request"/>
+<input type="submit" value="Make"/>
+    
+
+    </text>
+    
+}

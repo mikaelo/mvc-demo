@@ -167,6 +167,7 @@
     <Compile Include="App_Start\ValidatorConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\DictApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ShippingAddressController.cs" />
@@ -333,6 +334,7 @@
     <Content Include="Views\ShippingAddress\_SearchResultsEmpty.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Spec\Details.cshtml" />
+    <Content Include="Views\Demo\MakeRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
